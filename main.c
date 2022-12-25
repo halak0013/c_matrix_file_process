@@ -10,10 +10,12 @@
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 #include "matrixLib.h"
 #include <ctype.h>
 
 #define N 5
+#define VARY(X,SIZE) sqrt(covariance(X, X, SIZE))
 typedef enum
 {
     Iris_setosa = 1,
@@ -55,7 +57,6 @@ float **dataInclude(IrisDataType *datas, int row, int col)
 
 float *convertToVector(float **matris, int sellectedCol,int row,int col)
 {
-    printf("satir %d sutun %d",row,col);
     float *result=returnVector(row);
     for (int i = 0; i < row; i++)
     {
@@ -120,6 +121,7 @@ int main(int argc, char *argv[])
 
     // rb ile yapmayı dene
     FILE *file = fopen("Iris.csv", "rb");
+    FILE *outPut = fopen("IrisStatistic.txt", "w");
     if (file == NULL)
     {
         perror("dosya bulunamadı");
@@ -130,21 +132,22 @@ int main(int argc, char *argv[])
 
     char *line = (char *)malloc(sizeof(char) * 10);
     IrisDataType *datas = (IrisDataType *)malloc(sizeof(IrisDataType) * length);
-    char temp_c;
     int temp_i;
-    char *temp_s=(char *)malloc(sizeof(char) * 20);;
+    char *temp_s = (char *)malloc(sizeof(char) * 20);
+    float **irisMatris = matrixRandom(length, 4);
+    float **dataCorelMat=matrixRandom(length, 4);
 
     fgets(line, __INT_MAX__, file);
     fgets(line, __INT_MAX__, file);
     for (int i = 0; i < length; i++)
     {
         fscanf(file, "%d,%f,%f,%f,%f,%[^\n]", &temp_i,
-               &datas[i].SepalLengthCm, 
+               &datas[i].SepalLengthCm,
                &datas[i].SepalWidthCm,
                &datas[i].PetalLengthCm,
                &datas[i].PetalWidthCm,
                temp_s);
-        denemeOku(&datas[i],temp_s);
+        // denemeOku(&datas[i], temp_s);
         fgets(line, __INT_MAX__, file);
     }
 
