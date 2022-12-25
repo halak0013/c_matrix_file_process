@@ -38,6 +38,31 @@ void denemeOku(IrisDataType *ir, char *s)
     printf("%f -", ir->PetalWidthCm);
     printf("%s \n", s);
 }
+float **dataInclude(IrisDataType *datas, int row, int col)
+{
+    float **dataMatrix = matrixRandom(row, col);
+    perror("dene");
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            dataMatrix[i][j] = *((float *)datas + i * (col + 1) + j);
+        }
+    }
+    return dataMatrix;
+}
+
+float *convertToVector(float **matris, int sellectedCol,int row,int col)
+{
+    printf("satir %d sutun %d",row,col);
+    float *result=returnVector(row);
+    for (int i = 0; i < row; i++)
+    {
+        result[i]=matris[i][sellectedCol];
+    }
+    return result;
+}
 
 int main(int argc, char *argv[])
 {
