@@ -17,7 +17,7 @@
 typedef enum
 {
     Iris_setosa = 1,
-    ris_versicolor,
+    Iris_versicolor,
     Iris_virginica
 } species;
 
@@ -29,6 +29,15 @@ typedef struct
     float PetalWidthCm;
     species specie;
 } IrisDataType;
+
+void denemeOku(IrisDataType *ir, char *s)
+{
+    printf("*%f -", ir->SepalLengthCm);
+    printf("%f -", ir->SepalWidthCm);
+    printf("%f -", ir->PetalLengthCm);
+    printf("%f -", ir->PetalWidthCm);
+    printf("%s \n", s);
+}
 
 int main(int argc, char *argv[])
 {
@@ -85,7 +94,7 @@ int main(int argc, char *argv[])
     }
 
     // rb ile yapmayı dene
-    FILE *file = fopen("Iris.csv", "r");
+    FILE *file = fopen("Iris.csv", "rb");
     if (file == NULL)
     {
         perror("dosya bulunamadı");
@@ -93,7 +102,26 @@ int main(int argc, char *argv[])
     }
     int length;
     fscanf(file, "%d", &length);
+
+    char *line = (char *)malloc(sizeof(char) * 10);
     IrisDataType *datas = (IrisDataType *)malloc(sizeof(IrisDataType) * length);
-    
+    char temp_c;
+    int temp_i;
+    char *temp_s=(char *)malloc(sizeof(char) * 20);;
+
+    fgets(line, __INT_MAX__, file);
+    fgets(line, __INT_MAX__, file);
+    for (int i = 0; i < length; i++)
+    {
+        fscanf(file, "%d,%f,%f,%f,%f,%[^\n]", &temp_i,
+               &datas[i].SepalLengthCm, 
+               &datas[i].SepalWidthCm,
+               &datas[i].PetalLengthCm,
+               &datas[i].PetalWidthCm,
+               temp_s);
+        denemeOku(&datas[i],temp_s);
+        fgets(line, __INT_MAX__, file);
+    }
+
     return 0;
 }
