@@ -123,5 +123,13 @@ int main(int argc, char *argv[])
         fgets(line, __INT_MAX__, file);
     }
 
+    for (int i = 0; i < length; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            irisMatris[i][j] = *((float *)datas + i * (5) + j);
+        }
+    }
+    printMatrix(irisMatris, length, 4);
     return 0;
 }
