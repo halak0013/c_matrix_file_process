@@ -156,5 +156,40 @@ int main(int argc, char *argv[])
         }
     }
     printMatrix(irisMatris, length, 4);
+    float *SepalLengthCm=convertToVector(irisMatris,0,length,4);
+    float *SepalWidthCm=convertToVector(irisMatris,1,length,4);
+    float *PetalLengthCm=convertToVector(irisMatris,2,length,4);
+    float *PetalWidthCm=convertToVector(irisMatris,3,length,4);
+
+    float slMean=mean(SepalLengthCm,length);
+    float swMean=mean(SepalWidthCm,length);
+    float plMean=mean(PetalLengthCm,length);
+    float pwMean=mean(PetalWidthCm,length);
+
+    float slVaryans=VARY(SepalLengthCm,length);
+    float swVaryans=VARY(SepalWidthCm,length);
+    float plVaryans=VARY(PetalLengthCm,length);
+    float pwVaryans=VARY(PetalWidthCm,length);
+
+    float sl_sw_corel=correlation(SepalLengthCm,SepalWidthCm,length);
+    float pl_pw_corel=correlation(PetalLengthCm,PetalWidthCm,length);
+    float sl_pl_corel=correlation(SepalLengthCm,PetalLengthCm,length);
+
+    dataCorelMat=covarianceMatrix(irisMatris,length,4);
+    fclose(file);
+
+    fprintf(outPut,"Değerlerin Ortalaması\n");
+    fprintf(outPut,"Sepal Length Cm Ortalaması: %f\n",slMean);
+    fprintf(outPut,"Sepal Width Cm Ortalaması: %f\n",swMean);
+    fprintf(outPut,"Petal Length Cm Ortalaması: %f\n",plMean);
+    fprintf(outPut,"Petal Width Cm Ortalaması: %f\n",pwMean);
+
+    fprintf(outPut,"\n\nDeğerlerin Varyansı\n");
+    fprintf(outPut,"Sepal Length Cm Varyansı: %f\n",slVaryans);
+    fprintf(outPut,"Sepal Width Cm Varyansı: %f\n",swVaryans);
+    fprintf(outPut,"Petal Length Cm Varyansı: %f\n",plVaryans);
+    fprintf(outPut,"Petal Width Cm Varyansı: %f\n",pwVaryans);
+
+
     return 0;
 }
