@@ -1,0 +1,12 @@
+Değerlerin Ortalaması
+Sepal Length Cm Ortalaması: 5.843335
+Sepal Width Cm Ortalaması: 3.054000
+Petal Length Cm Ortalaması: 3.758667
+Petal Width Cm Ortalaması: 1.198667
+
+
+Değerlerin Varyansı
+Sepal Length Cm Varyansı: 0.828066
+Sepal Width Cm Varyansı: 0.433594
+Petal Length Cm Varyansı: 1.764420
+Petal Width Cm Varyansı: 0.763161
