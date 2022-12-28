@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include <assert.h>
 #include "matrixLib.h"
 #include <ctype.h>
 
@@ -95,8 +96,8 @@ int main(int argc, char *argv[])
         printf("--------deta---------\n");
         printf("%f\n", determinant(mat3, 3));
         freeMatrix(mat3, 3);
-        printf("--------mat3 silinmiş---------\n");
-        printMatrix(mat3, 3, 3);
+        //printf("--------mat3 silinmiş---------\n");
+        //printMatrix(mat3, 3, 3);
 
         float *vec2 = vectorRandom(N);
         float *vec3 = vectorRandom(N);
@@ -112,33 +113,33 @@ int main(int argc, char *argv[])
         printf("%.18f\n", covariance(vec2, vec3, N));
         printf("--------cor---------\n");
         printf("%.18f\n", correlation(vec2, vec3, N));
-        float **mat4 = matrixRandom(N, N);
+        float **mat4 = matrixRandom(N, 3);
+        float **mat5=covarianceMatrix(mat4, N, 3);
         printf("--------mat4---------\n");
-        printMatrix(mat4, N, N);
+        printMatrix(mat4, N, 3);
         printf("--------cov mat---------\n");
-        printMatrix(covarianceMatrix(mat4, N, N), N, N);
+        printMatrix(mat5, 3, 3);
     }
 
     // rb ile yapmayı dene
-    FILE *file = fopen("Iris.csv", "rb");
+    FILE *file = fopen("Iris.csv", "r");
     FILE *outPut = fopen("IrisStatistic.txt", "w");
     if (file == NULL)
     {
-        perror("dosya bulunamadı");
         exit(1);
     }
     int length;
     fscanf(file, "%d", &length);
 
-    char *line = (char *)malloc(sizeof(char) * 10);
+    char *line = (char *)malloc(sizeof(char) * 100);
     IrisDataType *datas = (IrisDataType *)malloc(sizeof(IrisDataType) * length);
     int temp_i;
     char *temp_s = (char *)malloc(sizeof(char) * 20);
-    float **irisMatris = matrixRandom(length, 4);
-    float **dataCorelMat=matrixRandom(length, 4);
+    float **irisMatris = matrixRandom(150, 4);
+    
 
-    fgets(line, __INT_MAX__, file);
-    fgets(line, __INT_MAX__, file);
+    fgets(line, 100, file);
+    fgets(line, 100, file);
     for (int i = 0; i < length; i++)
     {
         fscanf(file, "%d,%f,%f,%f,%f,%[^\n]", &temp_i,
@@ -148,7 +149,7 @@ int main(int argc, char *argv[])
                &datas[i].PetalWidthCm,
                temp_s);
         // denemeOku(&datas[i], temp_s);
-        fgets(line, __INT_MAX__, file);
+        fgets(line, 100, file);
     }
 
     for (int i = 0; i < length; i++)
@@ -178,7 +179,6 @@ int main(int argc, char *argv[])
     float pl_pw_corel=correlation(PetalLengthCm,PetalWidthCm,length);
     float sl_pl_corel=correlation(SepalLengthCm,PetalLengthCm,length);
 
-    dataCorelMat=covarianceMatrix(irisMatris,length,4);
     fclose(file);
 
     fprintf(outPut,"Değerlerin Ortalaması\n");
@@ -193,6 +193,13 @@ int main(int argc, char *argv[])
     fprintf(outPut,"Petal Length Cm Varyansı: %f\n",plVaryans);
     fprintf(outPut,"Petal Width Cm Varyansı: %f\n",pwVaryans);
 
+    fprintf(outPut,"\n\n3 Değerin Korelasyonu \n");
+    fprintf(outPut,"Sepal Length Cm - Sepal Width Cm  Korelasyonu: %f\n",sl_sw_corel);
+    fprintf(outPut,"Petal Length Cm - Petal Width Cm Korelasyonu: %f\n",pl_pw_corel);
+    fprintf(outPut,"Seapl Length Cm - Petal Length Cm Korelasyonu: %f\n",sl_pl_corel);
 
+    float **dat=covarianceMatrix(irisMatris,length,4);
+    printToDoc(dat,4,4,outPut);
+    fclose(outPut);
     return 0;
 }
