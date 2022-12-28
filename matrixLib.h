@@ -81,6 +81,10 @@ float **covarianceMatrix(float **mat, int row, int col);
 /* seçilen vektörü yazdırı */
 void printVector(float *vec, int N);
 
-/* seçilen matriksi yazdırı */
+/* seçilen matriksi yazdırır */
 void printMatrix(float **mat, int row, int col);
+
+/* seçilen matriksi dosyaya yazdırır */
+void printToDoc(float **mat, int row, int col,FILE *f);
+
 #endif
