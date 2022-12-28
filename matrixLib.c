@@ -25,8 +25,8 @@ float *vectorRandom(int size)
     for (int i = 0; i < size; i++)
     {
         vector[i] = ((float)rand() / (float)(RAND_MAX)) * 10;
-        //vector[i] = ((float)(rand() % 10)); 
-        //test aşamasında kolay hesaplama için
+        // vector[i] = ((float)(rand() % 10));
+        // test aşamasında kolay hesaplama için
     }
     return vector;
 }
@@ -65,7 +65,7 @@ void freeMatrix(float **mat, int row)
         free(mat[i]); //? tüm satırdaki işarteçiler dolaşıp siler
     }
     free(mat);
-    //printf("matrix silinmiştir\n");
+    // printf("matrix silinmiştir\n");
 }
 
 float mean(float *vec, int size)
@@ -204,7 +204,7 @@ float determinant(float **mat, int row)
 
 float correlation(float *vec, float *vec2, int size)
 {
-    return covariance(vec, vec2, size) /( sqrt(covariance(vec, vec, size)) * sqrt(covariance(vec2, vec2, size)) );
+    return covariance(vec, vec2, size) / (sqrt(covariance(vec, vec, size)) * sqrt(covariance(vec2, vec2, size)));
 }
 
 float covariance(float *vec1, float *vec2, int size)
@@ -221,7 +221,7 @@ float covariance(float *vec1, float *vec2, int size)
     {
         sum += ((vec1[i] - mean1) * (vec2[i] - mean2));
     }
-    return (sum / (size-1));
+    return (sum / (size - 1));
 }
 
 float **covarianceMatrix(float **mat, int row, int col)
@@ -238,15 +238,16 @@ float **covarianceMatrix(float **mat, int row, int col)
     float **matTra = matrixTranspose(mat, row, col);
     mat = matrixMultiplication(matTra, mat, col, row, row, col);
     //? her değeri satır uzunluğuna bölüyoruz
-    for (int i = 0; i < row; i++)
+    //! covaryan matris sütün sayısı kadar çıkıyormuş
+    for (int i = 0; i < col; i++)
     {
-        for (int j = 0; j < row; j++)
+        for (int j = 0; j < col; j++)
         {
             mat[i][j] *= (1.0 / row);
         }
     }
+    freeMatrix(matTra, col);
     free(colM);
-    freeMatrix(matTra,col);
     return mat;
 }
 
@@ -268,5 +269,18 @@ void printMatrix(float **mat, int row, int col)
             printf("%f ", mat[i][j]);
         }
         printf("\n");
+    }
+}
+
+void printToDoc(float **mat, int row, int col, FILE *f)
+{
+    fprintf(f,"\n\nDeğerlerin Kovaryans Matrisi \n");
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            fprintf(f, "%f ", mat[i][j]);
+        }
+        fprintf(f,"\n");
     }
 }
